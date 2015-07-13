@@ -9,15 +9,20 @@ namespace RecordVersionCompare
         private const string DefaultScheme = "mongodb://";
         private const string DefaultPort = "27017";
 
-        [Option('h', "host", DefaultValue = "localhost")]
+        [Option('h', "host")]
         public string Host { get; set; }
+
+        private string HostOrDefault
+        {
+            get { return string.IsNullOrWhiteSpace(Host) ? "localhost" : Host; }
+        }
 
         [Option('d', "db")]
         public string Database { get; set; }
 
         public string ConnectionString
         {
-            get { return DefaultScheme + Host + ":" + DefaultPort; }
+            get { return DefaultScheme + HostOrDefault + ":" + DefaultPort; }
         }
 
         public MongoServer GetServer()
